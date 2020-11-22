@@ -16,7 +16,7 @@ namespace backend_trab_final_BD.Controllers
         [HttpGet]
         public string Bora()
         {
-            return "Bora de BDzaum!!";
+            return "Bora de BDzaum!!!";
         }
     }
 }

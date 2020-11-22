@@ -2,6 +2,10 @@
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "http://localhost:150/TrabBD",
+      "sslPort": 0
+    },
     "iisExpress": {
       "applicationUrl": "http://localhost:52576",
       "sslPort": 44316
@@ -32,6 +36,14 @@
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/api/viagem",
       "publishAllPorts": true,
       "useSSL": true
+    },
+    "TrabBD": {
+      "commandName": "IIS",
+      "launchBrowser": true,
+      "launchUrl": "http://localhost:150/TrabBD/api/viagem",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
     }
   }
 }
