@@ -24,14 +24,26 @@ namespace backend_trab_final_BD
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddControllers();
-            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+        {            
+
+            services.AddCors(o => o.AddPolicy(name:"MyPolicy", builder =>
             {
                 builder.AllowAnyOrigin()
                        .AllowAnyMethod()
                        .AllowAnyHeader();
             }));
+
+            services.AddControllers();
+
+            services.AddSwaggerGen(options => {
+                options.SwaggerDoc("v1",
+                    new Microsoft.OpenApi.Models.OpenApiInfo
+                    {
+                        Title = "Swagger API SSS Passagens",
+                        Description = "Metodos habilitados nesta API.",
+                        Version = "v1"
+                    });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,6 +56,8 @@ namespace backend_trab_final_BD
 
             app.UseHttpsRedirection();
 
+            app.UseCors("MyPolicy");
+
             app.UseRouting();
 
             app.UseAuthorization();
@@ -51,8 +65,14 @@ namespace backend_trab_final_BD
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });            
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(options => {
+                options.SwaggerEndpoint("http://179.178.166.7:150/TrabBD/swagger/v1/swagger.json", "Swagger API SSS Passagens");
+                //options.RoutePrefix = string.Empty;
             });
-            app.UseCors("MyPolicy");
         }
     }
 }

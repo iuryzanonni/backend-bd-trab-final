@@ -14,9 +14,31 @@ namespace backend_trab_final_BD.Controllers
     public class ViagemController : ControllerBase
     {
         [HttpGet]
-        public string Bora()
+        public List<Viagem> GetViagens()
         {
-            return "Bora de BDzaum!!!";
+            ViagemManager viagem = new ViagemManager();
+            return viagem.GetViagens();
+        }
+
+        [HttpPost("insert")]
+        public void PostViagem(int id, int numeroPassagens, double preco, string data, int origemId, int destinoId, int tripulacaoId, int aviaoId, decimal hrVoo)
+        {
+            ViagemManager viagem = new ViagemManager();
+            viagem.InsereViagem(id, numeroPassagens, preco, data, origemId, destinoId, tripulacaoId, aviaoId, hrVoo);
+        }
+
+        [HttpPut("update")]
+        public void UpdateViagem(int id, int numeroPassagens, double preco, string data, int origemId, int destinoId, int tripulacaoId, int aviaoId, decimal hrVoo)
+        {
+            ViagemManager viagem = new ViagemManager();
+            viagem.UpdateViagem(id, numeroPassagens, preco, data, origemId, destinoId, tripulacaoId, aviaoId, hrVoo);
+        }
+
+        [HttpDelete("delete")]
+        public void DeleteViagem(int id, int numeroPassagens, double preco, string data, int origemId, int destinoId, int tripulacaoId, int aviaoId)
+        {
+            ViagemManager viagem = new ViagemManager();
+            viagem.DeleteViagem(id);
         }
     }
 }

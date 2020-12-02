@@ -21,5 +21,19 @@ namespace backend_trab_final_BD.Controllers
             FuncionarioManager manager = new FuncionarioManager();
             manager.InsertFuncionario(cpf, nome, cargo, dataContratacao, hrVoo);
         }
+
+        [HttpDelete("delete")]
+        public void DeleteFuncionario(string cpf)
+        {
+            FuncionarioManager manager = new FuncionarioManager();
+            manager.DeleteFuncionario(cpf);
+        }
+
+        [HttpPut("update")]
+        public void UpdateFuncionario(string cpf, string nome, string cargo, string dataContratacao, decimal hrVoo)
+        {
+            FuncionarioManager manager = new FuncionarioManager();
+            manager.UpdateFuncionario(cpf,nome,cargo, dataContratacao, hrVoo);
+        }
     }
 }
