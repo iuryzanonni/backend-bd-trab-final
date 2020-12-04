@@ -15,7 +15,7 @@ namespace backend_trab_final_BD.Model
         public string destino { get; set; }
         public decimal tempoViagem { get; set; }
         public decimal quant { get; set; }
-
+        public string idade { get; set; }
     }
 
     public class AnaliseFuncionario
@@ -24,8 +24,7 @@ namespace backend_trab_final_BD.Model
         public string nome { get; set; }
         public string cargo { get; set; }
         public decimal hrVoo { get; set; }
-        public decimal id { get; set; }
-
+        public string idTripulacao { get; set; }        
     }
     public class AnaliseManager
     {
@@ -97,7 +96,7 @@ namespace backend_trab_final_BD.Model
                     " OR F.CPF = T.COPILOTOCPF " +
                     " OR F.CPF  = T.COMISSARIO1CPF" +
                     " OR F.CPF  = T.COMISSARIO2CPF" +
-                    " WHERE T.ID IS NOT NULL" +
+                    //" WHERE T.ID IS NULL" +
                     " ORDER BY T.ID";
                 try
                 {
@@ -110,7 +109,14 @@ namespace backend_trab_final_BD.Model
                         analise.nome = reader["nome"].ToString();
                         analise.cargo = reader["cargo"].ToString();
                         analise.hrVoo = (decimal)reader["horasvoo"];
-                        analise.id = (decimal)reader["id"];
+                        if(Convert.IsDBNull(reader["id"]))
+                        {
+                            analise.idTripulacao = "Sem tripulação";
+                        }
+                        else
+                        {
+                            analise.idTripulacao = reader["id"].ToString();
+                        }
                         model.Add(analise);
                     }
                 }
@@ -225,6 +231,7 @@ namespace backend_trab_final_BD.Model
                     " 	 , PASSAGEIRO.NOME" +
                     " 	 , L2.CIDADE" +
                     " 	, COUNT(L2.CIDADE) \"QUANT\"" +
+                    " ,FLOOR((sysdate-PASSAGEIRO.DATANASCIMENTO)/ 365) \"IDADE\"" +
                     " FROM PASSAGEIRO" +
                     " INNER JOIN PASSAGEM" +
                     " ON PASSAGEIRO.CPF = PASSAGEM.PASSAGEIROCPF" +
@@ -235,7 +242,7 @@ namespace backend_trab_final_BD.Model
                     " INNER JOIN LOCALIZACAO L2" +
                     " ON VIAGEM.DESTINOID = L2.ID" +
                     " WHERE PASSAGEIRO.CPF IN (SELECT p.CPF FROM PASSAGEIRO p WHERE FLOOR((sysdate-p.DATANASCIMENTO)/365) >= 65) " +
-                    " GROUP BY L2.CIDADE, PASSAGEIRO.CPF, PASSAGEIRO.NOME";
+                    " GROUP BY L2.CIDADE, PASSAGEIRO.CPF, PASSAGEIRO.NOME, FLOOR((sysdate-PASSAGEIRO.DATANASCIMENTO)/ 365)";
 
                 try
                 {
@@ -248,6 +255,7 @@ namespace backend_trab_final_BD.Model
                         analise.nome = reader["NOME"].ToString();
                         analise.destino = reader["CIDADE"].ToString();
                         analise.quant = (decimal)reader["QUANT"];
+                        analise.idade = reader["IDADE"].ToString();
                         model.Add(analise);
                     }
                 }
